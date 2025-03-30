@@ -7,7 +7,11 @@ type PostMetadata = {
   rating: number;
   tags: string[];
   editorsChoice: boolean;
-  coverImage: string;
+  featured: boolean;
+  coverImage: {
+    url: string;
+    aspectRatio: string;
+  };
   author: Author;
   excerpt: string;
   ogImage: {
@@ -19,8 +23,8 @@ type PostMetadata = {
 
 type ComputedMetadata = {
   coverImage: {
-    url: string;
     isDark: boolean;
+    dominantColor: string;
   };
 };
 

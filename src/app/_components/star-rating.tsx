@@ -3,10 +3,11 @@ import { cn } from '@/lib/utils';
 import { Star } from 'lucide-react';
 
 type StarRatingProps = Pick<Post, 'rating'> & {
+  detailed?: boolean;
   className?: string;
 };
 
-const StarRating = ({ rating, className }: StarRatingProps) => {
+const StarRating = ({ rating, detailed, className }: StarRatingProps) => {
   return (
     <div
       className={cn(
@@ -14,7 +15,7 @@ const StarRating = ({ rating, className }: StarRatingProps) => {
         className,
       )}
     >
-      <div className="flex">
+      <div className="flex items-baseline">
         {Array(5)
           .fill(0)
           .map((_, j) => {
@@ -48,7 +49,7 @@ const StarRating = ({ rating, className }: StarRatingProps) => {
             );
           })}
       </div>
-      <span>{rating.toFixed(1)}/5.0</span>
+      {detailed && <span>{rating.toFixed(1)}/5.0</span>}
     </div>
   );
 };

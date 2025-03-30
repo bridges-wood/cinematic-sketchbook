@@ -18,7 +18,7 @@ export default async function Tag(props: Params) {
 
   return (
     <Container>
-      <section className="w-full pt-12 md:pt-24 lg:pt-32">
+      <section className="w-full max-w-5xl pt-12 md:pt-24 lg:pt-32">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
           {tag.title}
         </h1>

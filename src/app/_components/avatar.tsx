@@ -14,7 +14,14 @@ const Avatar = ({ name, picture, imageOnly, className }: AvatarProps) => {
       href={`/authors/${slugify(name, { lower: true })}`}
       className={cn('flex items-center', className)}
     >
-      <img src={picture} className="mr-4 h-12 w-12 rounded-full" alt={name} />
+      <img
+        src={picture}
+        className={cn(
+          'aspect-square h-12 w-12 rounded-full',
+          !imageOnly && 'mr-4',
+        )}
+        alt={name}
+      />
       {imageOnly ? null : <div className="text-xl font-bold">{name}</div>}
     </Link>
   );

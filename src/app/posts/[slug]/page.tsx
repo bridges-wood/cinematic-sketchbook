@@ -29,7 +29,7 @@ export default async function Post(props: Params) {
         <article className="my-32">
           <PostHeader
             title={post.title}
-            coverImage={post.coverImage}
+            coverImage={post.coverImage.url}
             date={post.date}
             author={post.author}
           />

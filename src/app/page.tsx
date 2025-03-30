@@ -15,12 +15,15 @@ import { HeroPost } from './_components/hero-post';
 
 export default async function Index() {
   const posts = await getAllPosts();
-  const heroPost = posts.find((post) => post.editorsChoice) || posts[0];
+  const heroPost = posts.find((post) => post.featured) || posts[0];
 
   return (
     <div className="flex flex-col">
       <main className="flex-1">
-        <section className="bg-muted w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section
+          id="hero"
+          className="bg-muted mx-auto w-full max-w-7xl py-12 md:py-24 lg:py-32 xl:py-48"
+        >
           <div className="px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
@@ -45,9 +48,7 @@ export default async function Index() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative h-[350px] w-[300px] sm:h-[450px] sm:w-[400px] lg:h-[550px] lg:w-[450px]">
-                  <HeroPost {...heroPost} />
-                </div>
+                <HeroPost {...heroPost} />
               </div>
             </div>
           </div>

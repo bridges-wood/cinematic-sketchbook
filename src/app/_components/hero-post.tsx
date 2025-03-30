@@ -1,10 +1,11 @@
 'use client';
-import Avatar from '@/app/_components/avatar';
+import { useGlare } from '@/hooks/useGlare';
 import { Post } from '@/interfaces/post';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 import slugify from 'slugify';
 import { EditorsChoice } from './editors-choice';
 import StarRating from './star-rating';
@@ -22,58 +23,68 @@ export function HeroPost({
   editorsChoice,
   className,
 }: HeroPostProps) {
-  const [transform, setTransform] = useState('');
-  const [glare, setGlare] = useState({ x: '50%', y: '50%', opacity: 0 });
+  const router = useRouter();
+
   const cardRef = useRef<HTMLDivElement>(null);
+  const { transform, glare, handleMouseMove, handleMouseLeave } =
+    useGlare(cardRef);
   const textColor = coverImage.isDark ? 'text-white' : 'text-gray-900';
-  const textColorMuted = coverImage.isDark ? 'text-gray-200' : 'text-gray-700';
-  const backgroundMuted = coverImage.isDark ? 'bg-gray-400' : 'bg-gray-500';
+  const textColorMuted = coverImage.isDark
+    ? 'text-gray-200 hover:text-gray-900'
+    : 'text-gray-700 hover:text-white';
+  const backgroundMuted = coverImage.isDark
+    ? 'border-gray-200 border-2 hover:bg-gray-200'
+    : 'border-gray-700 border-2 hover:bg-gray-700';
 
-  console.log(editorsChoice);
+  const widthRatio = Number(coverImage.aspectRatio.split('/')[0]);
+  const heightRatio = Number(coverImage.aspectRatio.split('/')[1]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+  console.log(coverImage.dominantColor);
 
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const calculateDisplayableTags = (tags: string[]) => {
+    const maxLength = 15;
+    const tagsToDisplay = tags.reduce((acc, tag) => {
+      const tagLength = tag.length;
+      if (acc.length + tagLength <= maxLength) {
+        acc.push(tag);
+      }
+      return acc;
+    }, [] as string[]);
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = (y - centerY) / 50;
-    const rotateY = (centerX - x) / 50;
-
-    setTransform(
-      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`,
-    );
-
-    // Update glare position
-    const glareX = (x / rect.width) * 100;
-    const glareY = (y / rect.height) * 100;
-    setGlare({
-      x: `${glareX}%`,
-      y: `${glareY}%`,
-      opacity: 0.15,
-    });
+    return tagsToDisplay;
   };
 
-  const handleMouseLeave = () => {
-    setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
-    setGlare({ x: '50%', y: '50%', opacity: 0 });
-  };
+  console.log(coverImage.aspectRatio);
+  console.log(
+    cn(
+      'relative cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ease-out',
+      'mx-auto w-full max-w-4xl shadow-xl',
+      `aspect-[${coverImage.aspectRatio}]`,
+      'group',
+      className,
+    ),
+  );
 
   return (
-    <>
+    <div
+      className={cn(
+        'relative w-[300px] sm:w-[400px] lg:w-[450px]',
+        `h-[${(300 / widthRatio) * heightRatio}px] sm:h-[${(400 / widthRatio) * heightRatio}px] lg:h-[${(450 / widthRatio) * heightRatio}px]`,
+      )}
+    >
       <div
         ref={cardRef}
         className={cn(
           'relative cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ease-out',
-          'mx-auto aspect-[3/4] w-full max-w-4xl shadow-xl',
+          'mx-auto w-full max-w-4xl shadow-xl',
           'group',
           className,
         )}
-        style={{ transform, transformStyle: 'preserve-3d' }}
+        style={{
+          transform,
+          transformStyle: 'preserve-3d',
+          aspectRatio: coverImage.aspectRatio,
+        }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -88,6 +99,7 @@ export function HeroPost({
             fill
             className="object-cover"
             priority
+            sizes="(min-width:640px) 450px, (min-width:1024px) 450px, 300px"
           />
         </Link>
 
@@ -101,22 +113,31 @@ export function HeroPost({
         />
 
         {/* Content */}
-        <div className="absolute inset-x-0 bottom-0 flex h-full translate-y-[calc(100%-130px)] transform flex-col justify-end bg-gradient-to-t to-transparent p-6 transition-all duration-500 ease-in-out group-hover:translate-y-0">
+        <div
+          className={cn(
+            'absolute inset-x-0 bottom-0 flex h-full translate-y-[calc(200%)] transform flex-col justify-end p-6 transition-all duration-500 ease-in-out group-hover:translate-y-0',
+          )}
+        >
           <h3
             className={cn(
-              'text-4xl font-extrabold leading-tight lg:text-5xl',
+              'text-balance text-3xl font-bold leading-tight lg:text-4xl',
               textColor,
             )}
           >
-            <Link href={`/posts/${slug}`}>{title}</Link>
+            <Link
+              href={`/posts/${slug}`}
+              className="after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:content-['']"
+            >
+              {title}
+            </Link>
           </h3>
-          <div className="flex flex-row gap-1">
-            {tags.map((tag) => (
+          <div className="my-2 flex flex-row gap-1">
+            {calculateDisplayableTags(tags).map((tag) => (
               <Link
                 key={tag}
                 href={`/tags/${slugify(tag, { lower: true })}`}
                 className={cn(
-                  'bg rounded-full px-2 text-sm font-semibold uppercase text-gray-500 transition-colors duration-200 hover:text-gray-900',
+                  'bg z-10 rounded-full px-2 text-xs font-normal uppercase transition-colors duration-200',
                   textColorMuted,
                   backgroundMuted,
                 )}
@@ -127,27 +148,25 @@ export function HeroPost({
           </div>
           <StarRating
             rating={rating}
-            className={cn('text-lg', textColorMuted)}
+            className={cn(
+              'text-md',
+              coverImage.isDark ? 'text-gray-200' : 'text-gray-700',
+            )}
           />
           <div>
             <p
               className={cn(
-                'mb-4 hidden text-lg leading-relaxed md:block',
+                'text-md mb-2 hidden leading-relaxed md:block',
                 textColor,
               )}
             >
               {excerpt}
             </p>
-            <Avatar
-              name={author.name}
-              picture={author.picture}
-              className={cn(textColor)}
-            />
           </div>
         </div>
       </div>
       {/* Editors Choice Badge */}
       {editorsChoice && <EditorsChoice />}
-    </>
+    </div>
   );
 }
