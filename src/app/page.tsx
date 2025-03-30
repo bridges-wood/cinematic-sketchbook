@@ -38,13 +38,13 @@ export default async function Index() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg">
+                  <Button variant="outline" size="lg" id="call-to-action">
                     Browse Latest Reviews
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="lg">
+                  {/* <Button variant="outline" size="lg">
                     Join Community
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
               <div className="flex items-center justify-center">
