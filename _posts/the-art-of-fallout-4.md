@@ -7,7 +7,10 @@ tags:
   - Atompunk
 rating: 4.8
 editorsChoice: true
-coverImage: '/assets/blog/fallout-4/cover.jpg'
+featured: false
+coverImage:
+  url: '/assets/blog/fallout-4/cover.jpg'
+  aspectRatio: 3/4
 date: '2025-03-27T22:08:30.000Z'
 author:
   name: Max Wood
