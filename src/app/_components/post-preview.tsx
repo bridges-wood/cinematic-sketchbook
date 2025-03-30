@@ -1,17 +1,11 @@
-import { type Author } from "@/interfaces/author";
-import Link from "next/link";
-import Avatar from "./avatar";
-import CoverImage from "./cover-image";
-import DateFormatter from "./date-formatter";
+import { Post } from '@/interfaces/post';
+import Link from 'next/link';
+import Avatar from './avatar';
+import CoverImage from './cover-image';
+import { EditorsChoice } from './editors-choice';
+import StarRating from './star-rating';
 
-type Props = {
-  title: string;
-  coverImage: string;
-  date: string;
-  excerpt: string;
-  author: Author;
-  slug: string;
-};
+type Props = Post;
 
 export function PostPreview({
   title,
@@ -19,23 +13,29 @@ export function PostPreview({
   date,
   excerpt,
   author,
+  editorsChoice,
+  rating,
   slug,
 }: Props) {
+  console.log(editorsChoice);
   return (
-    <div>
+    <div className="relative">
       <div className="mb-5">
-        <CoverImage slug={slug} title={title} src={coverImage} />
+        <CoverImage slug={slug} title={title} src={coverImage.url} />
       </div>
-      <h3 className="text-3xl mb-3 leading-snug">
+      <h3 className="mb-3 flex flex-row items-center text-2xl font-bold leading-snug">
+        <Avatar name={author.name} picture={author.picture} imageOnly />
         <Link href={`/posts/${slug}`} className="hover:underline">
           {title}
         </Link>
       </h3>
-      <div className="text-lg mb-4">
+      <StarRating rating={rating} className="text-md mb-2" />
+      {/* <div className="mb-4 text-lg text-gray-500">
         <DateFormatter dateString={date} />
-      </div>
-      <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-      <Avatar name={author.name} picture={author.picture} />
+      </div> */}
+      <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>
+      {/* Editor's choice badge */}
+      {editorsChoice && <EditorsChoice />}
     </div>
   );
 }

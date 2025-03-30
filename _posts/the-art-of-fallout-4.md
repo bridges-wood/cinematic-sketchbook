@@ -1,6 +1,12 @@
 ---
 title: 'The Art of Fallout 4'
-excerpt: 'Fallout 4 is a post-apocalyptic action role-playing video game developed by Bethesda Game Studios and published by Bethesda Softworks. It is the fifth major installment in the Fallout series and was released worldwide on November 10, 2015, for Microsoft Windows, PlayStation 4 and Xbox One.'
+excerpt: "The post-apocalyptic world of Fallout 4 has never felt more alive. Filled with the most art we've ever seen from any video game art book, this volume is a must-have for any fan of the series."
+tags:
+  - Video Games
+  - Fallout
+  - Atompunk
+rating: 4.8
+editorsChoice: true
 coverImage: '/assets/blog/fallout-4/cover.jpg'
 date: '2025-03-27T22:08:30.000Z'
 author:
@@ -12,4 +18,3 @@ ogImage:
 
 asdas
 dasdas
-

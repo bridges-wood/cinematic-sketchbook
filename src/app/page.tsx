@@ -8,21 +8,20 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { getAllPosts } from '@/lib/api';
+import { getAllPosts } from '@/lib/api/posts';
 import { BookOpen, Bookmark, ChevronRight, Palette, Star } from 'lucide-react';
 import Image from 'next/image';
 import { HeroPost } from './_components/hero-post';
 
-export default function Index() {
-  const allPosts = getAllPosts();
-
-  const heroPost = allPosts[0];
+export default async function Index() {
+  const posts = await getAllPosts();
+  const heroPost = posts.find((post) => post.editorsChoice) || posts[0];
 
   return (
     <div className="flex flex-col">
       <main className="flex-1">
         <section className="bg-muted w-full py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -48,12 +47,6 @@ export default function Index() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[350px] w-[300px] sm:h-[450px] sm:w-[400px] lg:h-[550px] lg:w-[450px]">
                   <HeroPost {...heroPost} />
-                  <div className="absolute -bottom-6 -left-6 rounded-lg bg-white p-4 shadow-lg">
-                    <div className="flex items-center gap-2">
-                      <Star className="h-5 w-5 text-yellow-500" />
-                      <span className="font-bold">Editor's Choice</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -61,7 +54,7 @@ export default function Index() {
         </section>
 
         <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="bg-primary text-primary-foreground inline-block rounded-lg px-3 py-1 text-sm">
@@ -145,7 +138,7 @@ export default function Index() {
         </section>
 
         <section className="bg-muted w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

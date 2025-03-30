@@ -1,19 +1,19 @@
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BookOpen, Search } from 'lucide-react';
 import Link from 'next/link';
+import { ThemeSwitcher } from './theme-switcher';
 
 const Header = () => {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b px-5 backdrop-blur">
       <div className="flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <BookOpen className="h-6 w-6" />
           <span className="max-xs:hidden text-xl font-bold">
             Cinematic Sketchbook
           </span>
-          <span className="hidden max-xs:block text-xl font-bold">CS</span>
-        </div>
+          <span className="max-xs:block hidden text-xl font-bold">CS</span>
+        </Link>
         <nav className="hidden gap-6 lg:flex">
           <Link
             href="#"
@@ -49,10 +49,11 @@ const Header = () => {
               className="w-[200px] pl-8"
             />
           </div>
-          <Button variant="outline" size="sm" className="hidden md:flex">
+          <ThemeSwitcher />
+          {/* <Button variant="outline" size="sm" className="hidden md:flex">
             Log in
           </Button>
-          <Button size="sm">Subscribe</Button>
+          <Button size="sm">Subscribe</Button> */}
         </div>
       </div>
     </header>

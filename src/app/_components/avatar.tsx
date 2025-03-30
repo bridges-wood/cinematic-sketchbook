@@ -1,14 +1,22 @@
-type Props = {
-  name: string;
-  picture: string;
+import { Author } from '@/interfaces/author';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import slugify from 'slugify';
+
+type AvatarProps = Author & {
+  imageOnly?: boolean;
+  className?: string;
 };
 
-const Avatar = ({ name, picture }: Props) => {
+const Avatar = ({ name, picture, imageOnly, className }: AvatarProps) => {
   return (
-    <div className="flex items-center">
-      <img src={picture} className="w-12 h-12 rounded-full mr-4" alt={name} />
-      <div className="text-xl font-bold">{name}</div>
-    </div>
+    <Link
+      href={`/authors/${slugify(name, { lower: true })}`}
+      className={cn('flex items-center', className)}
+    >
+      <img src={picture} className="mr-4 h-12 w-12 rounded-full" alt={name} />
+      {imageOnly ? null : <div className="text-xl font-bold">{name}</div>}
+    </Link>
   );
 };
 

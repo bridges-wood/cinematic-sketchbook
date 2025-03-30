@@ -1,9 +1,12 @@
-import { type Author } from "./author";
+import { type Author } from './author';
 
-export type Post = {
+type PostMetadata = {
   slug: string;
   title: string;
   date: string;
+  rating: number;
+  tags: string[];
+  editorsChoice: boolean;
   coverImage: string;
   author: Author;
   excerpt: string;
@@ -13,3 +16,12 @@ export type Post = {
   content: string;
   preview?: boolean;
 };
+
+type ComputedMetadata = {
+  coverImage: {
+    url: string;
+    isDark: boolean;
+  };
+};
+
+export type Post = PostMetadata & ComputedMetadata;

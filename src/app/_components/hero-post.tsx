@@ -1,34 +1,35 @@
 'use client';
 import Avatar from '@/app/_components/avatar';
-import { type Author } from '@/interfaces/author';
+import { Post } from '@/interfaces/post';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import DateFormatter from './date-formatter';
+import slugify from 'slugify';
+import { EditorsChoice } from './editors-choice';
+import StarRating from './star-rating';
 
-type Props = {
-  title: string;
-  coverImage: string;
-  date: string;
-  excerpt: string;
-  author: Author;
-  slug: string;
-  className?: string;
-};
+type HeroPostProps = Post & { className?: string };
 
 export function HeroPost({
   title,
   coverImage,
-  date,
+  tags,
   excerpt,
   author,
+  rating,
   slug,
+  editorsChoice,
   className,
-}: Props) {
+}: HeroPostProps) {
   const [transform, setTransform] = useState('');
   const [glare, setGlare] = useState({ x: '50%', y: '50%', opacity: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
+  const textColor = coverImage.isDark ? 'text-white' : 'text-gray-900';
+  const textColorMuted = coverImage.isDark ? 'text-gray-200' : 'text-gray-700';
+  const backgroundMuted = coverImage.isDark ? 'bg-gray-400' : 'bg-gray-500';
+
+  console.log(editorsChoice);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -63,7 +64,7 @@ export function HeroPost({
   };
 
   return (
-    <Link href={`/posts/${slug}`}>
+    <>
       <div
         ref={cardRef}
         className={cn(
@@ -77,15 +78,18 @@ export function HeroPost({
         onMouseLeave={handleMouseLeave}
       >
         {/* Cover background */}
-        <div className="absolute inset-0 h-full w-full transition-all duration-500 group-hover:blur-sm">
+        <Link
+          href={`/posts/${slug}`}
+          className="absolute inset-0 h-full w-full transition-all duration-500 group-hover:blur-md"
+        >
           <Image
-            src={coverImage}
+            src={coverImage.url}
             alt={`Cover Image for ${title}`}
             fill
             className="object-cover"
             priority
           />
-        </div>
+        </Link>
 
         {/* Glare */}
         <div
@@ -98,20 +102,52 @@ export function HeroPost({
 
         {/* Content */}
         <div className="absolute inset-x-0 bottom-0 flex h-full translate-y-[calc(100%-130px)] transform flex-col justify-end bg-gradient-to-t to-transparent p-6 transition-all duration-500 ease-in-out group-hover:translate-y-0">
-          <h3 className="mb-4 text-4xl leading-tight lg:text-5xl">
-            <Link href={`/posts/${slug}`} className="hover:underline">
-              {title}
-            </Link>
+          <h3
+            className={cn(
+              'text-4xl font-extrabold leading-tight lg:text-5xl',
+              textColor,
+            )}
+          >
+            <Link href={`/posts/${slug}`}>{title}</Link>
           </h3>
-          <div className="mb-4 text-lg md:mb-0">
-            <DateFormatter dateString={date} />
+          <div className="flex flex-row gap-1">
+            {tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/tags/${slugify(tag, { lower: true })}`}
+                className={cn(
+                  'bg rounded-full px-2 text-sm font-semibold uppercase text-gray-500 transition-colors duration-200 hover:text-gray-900',
+                  textColorMuted,
+                  backgroundMuted,
+                )}
+              >
+                {tag}
+              </Link>
+            ))}
           </div>
+          <StarRating
+            rating={rating}
+            className={cn('text-lg', textColorMuted)}
+          />
           <div>
-            <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>
-            <Avatar name={author.name} picture={author.picture} />
+            <p
+              className={cn(
+                'mb-4 hidden text-lg leading-relaxed md:block',
+                textColor,
+              )}
+            >
+              {excerpt}
+            </p>
+            <Avatar
+              name={author.name}
+              picture={author.picture}
+              className={cn(textColor)}
+            />
           </div>
         </div>
       </div>
-    </Link>
+      {/* Editors Choice Badge */}
+      {editorsChoice && <EditorsChoice />}
+    </>
   );
 }
