@@ -22,7 +22,7 @@ export function PostPreview({
   return (
     <div className="relative">
       <div className="mb-5">
-        <CoverImage slug={slug} title={title} src={coverImage.url} />
+        <CoverImage slug={slug} title={title} image={coverImage} />
       </div>
       <h3 className="flex flex-row items-center gap-2 text-2xl font-bold leading-snug">
         <Link href={`/posts/${slug}`} className="hover:underline">
