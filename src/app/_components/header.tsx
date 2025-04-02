@@ -7,35 +7,35 @@ const Header = () => {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b px-5 backdrop-blur">
       <div className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 rounded-md px-3 py-1">
           <BookOpen className="h-6 w-6" />
-          <span className="max-xs:hidden text-xl font-bold">
+          <span className="text-xl font-bold max-xs:hidden">
             Cinematic Sketchbook
           </span>
-          <span className="max-xs:block hidden text-xl font-bold">CS</span>
+          <span className="hidden text-xl font-bold max-xs:block">CS</span>
         </Link>
         <nav className="hidden gap-6 lg:flex">
           <Link
             href="#"
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="rounded-md px-3 py-1 text-sm font-medium underline-offset-4 hover:underline"
           >
             Reviews
           </Link>
           <Link
             href="#"
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="rounded-md px-3 py-1 text-sm font-medium underline-offset-4 hover:underline"
           >
             Categories
           </Link>
           <Link
             href="#"
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="rounded-md px-3 py-1 text-sm font-medium underline-offset-4 hover:underline"
           >
             About
           </Link>
           <Link
             href="#"
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="rounded-md px-3 py-1 text-sm font-medium underline-offset-4 hover:underline"
           >
             Contact
           </Link>
@@ -46,7 +46,7 @@ const Header = () => {
             <Input
               type="search"
               placeholder="Search books..."
-              className="w-[200px] pl-8"
+              className="w-[200px] bg-white pl-8 dark:bg-slate-800"
             />
           </div>
           <ThemeSwitcher />

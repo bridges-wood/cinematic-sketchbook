@@ -26,7 +26,7 @@ export default async function Post(props: Params) {
   return (
     <main>
       <Container>
-        <article className="my-32">
+        <article className="my-16 md:my-32">
           <PostHeader {...post} />
           <PostBody content={content} />
         </article>
