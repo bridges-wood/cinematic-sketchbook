@@ -27,12 +27,7 @@ export default async function Post(props: Params) {
     <main>
       <Container>
         <article className="my-32">
-          <PostHeader
-            title={post.title}
-            coverImage={post.coverImage.url}
-            date={post.date}
-            author={post.author}
-          />
+          <PostHeader {...post} />
           <PostBody content={content} />
         </article>
       </Container>

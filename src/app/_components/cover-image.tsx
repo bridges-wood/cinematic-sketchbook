@@ -1,34 +1,59 @@
+'use client';
+import { Post } from '@/interfaces/post';
 import cn from 'classnames';
-import Image from 'next/image';
+import NextImage from 'next/image';
 import Link from 'next/link';
 
 type Props = {
   title: string;
-  src: string;
+  image: Post['coverImage'];
   slug?: string;
 };
 
-const CoverImage = ({ title, src, slug }: Props) => {
-  const image = (
-    <Image
-      src={src}
+const CoverImage = ({ title, image, slug }: Props) => {
+  const innerImage = (
+    <NextImage
+      src={image.url}
       alt={`Cover Image for ${title}`}
-      className={cn('w-full shadow-sm', {
+      className={cn('object-cover shadow-sm', {
         'transition-shadow duration-200 hover:shadow-lg': slug,
       })}
-      height={500}
-      width={500}
+      fill
       priority
+      sizes="(max-width: 640px) 300px, (min-width: 640px) 450px, (min-width: 768px) 600px, (min-width: 1024px) 900px, (min-width: 1280px) 100vw"
+      placeholder="blur"
+      blurDataURL={image.blurDataURL}
+      suppressHydrationWarning={true}
+      onLoad={(e) => {
+        // On larger screens, load the full resolution image
+        if (e.currentTarget.width >= 900) {
+          e.currentTarget.src = image.url;
+          e.currentTarget.srcset = image.url;
+        }
+      }}
     />
   );
+
   return (
-    <div className="sm:mx-0">
+    <div
+      className={cn(
+        'relative mx-auto w-[300px] sm:w-[450px] md:w-[600px] lg:w-[900px] xl:w-[1200px]',
+        ``,
+      )}
+      style={{
+        aspectRatio: image.aspectRatio,
+      }}
+    >
       {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
-          {image}
+        <Link
+          href={`/posts/${slug}`}
+          aria-label={title}
+          className="h-full w-full"
+        >
+          {innerImage}
         </Link>
       ) : (
-        image
+        innerImage
       )}
     </div>
   );

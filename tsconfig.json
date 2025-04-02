@@ -19,6 +19,7 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@/tailwind": ["./tailwind.config.ts"],
       "@/*": ["./src/*"]
     },
     "target": "ES2017"

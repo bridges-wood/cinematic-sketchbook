@@ -10,6 +10,7 @@ type PostMetadata = {
   featured: boolean;
   coverImage: {
     url: string;
+    blurDataURL: string;
     aspectRatio: string;
   };
   author: Author;

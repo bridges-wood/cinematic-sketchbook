@@ -4,7 +4,6 @@ import { Post } from '@/interfaces/post';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import slugify from 'slugify';
 import { EditorsChoice } from './editors-choice';
@@ -23,8 +22,6 @@ export function HeroPost({
   editorsChoice,
   className,
 }: HeroPostProps) {
-  const router = useRouter();
-
   const cardRef = useRef<HTMLDivElement>(null);
   const { transform, glare, handleMouseMove, handleMouseLeave } =
     useGlare(cardRef);
@@ -35,11 +32,6 @@ export function HeroPost({
   const backgroundMuted = coverImage.isDark
     ? 'border-gray-200 border-2 hover:bg-gray-200'
     : 'border-gray-700 border-2 hover:bg-gray-700';
-
-  const widthRatio = Number(coverImage.aspectRatio.split('/')[0]);
-  const heightRatio = Number(coverImage.aspectRatio.split('/')[1]);
-
-  console.log(coverImage.dominantColor);
 
   const calculateDisplayableTags = (tags: string[]) => {
     const maxLength = 15;
@@ -54,24 +46,8 @@ export function HeroPost({
     return tagsToDisplay;
   };
 
-  console.log(coverImage.aspectRatio);
-  console.log(
-    cn(
-      'relative cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ease-out',
-      'mx-auto w-full max-w-4xl shadow-xl',
-      `aspect-[${coverImage.aspectRatio}]`,
-      'group',
-      className,
-    ),
-  );
-
   return (
-    <div
-      className={cn(
-        'relative w-[300px] sm:w-[400px] lg:w-[450px]',
-        `h-[${(300 / widthRatio) * heightRatio}px] sm:h-[${(400 / widthRatio) * heightRatio}px] lg:h-[${(450 / widthRatio) * heightRatio}px]`,
-      )}
-    >
+    <div className={cn('relative w-[300px] sm:w-[400px] lg:w-[450px]')}>
       <div
         ref={cardRef}
         className={cn(
