@@ -13,6 +13,7 @@ const config = {
       },
     ],
   },
+  transpilePackages: ['next-mdx-remote'],
 };
 
 export default withPlaiceholder(config);

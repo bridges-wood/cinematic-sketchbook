@@ -1,9 +1,9 @@
 import Container from '@/app/_components/container';
+import { CustomMDX } from '@/app/_components/mdx';
 import { PostBody } from '@/app/_components/post-body';
 import { PostHeader } from '@/app/_components/post-header';
 import { getAllPosts, getPostBySlug } from '@/lib/api/posts';
 import { CMS_NAME } from '@/lib/constants';
-import markdownToHtml from '@/lib/markdownToHtml';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -14,21 +14,21 @@ type Params = {
 };
 
 export default async function Post(props: Params) {
-  const params = await props.params;
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await props.params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return notFound();
   }
-
-  const content = await markdownToHtml(post.content || '');
 
   return (
     <main>
       <Container>
         <article className="my-16 md:my-32">
           <PostHeader {...post} />
-          <PostBody content={content} />
+          <PostBody>
+            <CustomMDX source={post.content} />
+          </PostBody>
         </article>
       </Container>
     </main>
@@ -36,8 +36,8 @@ export default async function Post(props: Params) {
 }
 
 export async function generateMetadata(props: Params): Promise<Metadata> {
-  const params = await props.params;
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await props.params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -61,3 +61,5 @@ export async function generateStaticParams() {
     slug: post.slug,
   }));
 }
+
+export const dynamicParams = false;

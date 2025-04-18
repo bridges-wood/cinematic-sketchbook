@@ -1,16 +1,18 @@
-import markdownStyles from "./markdown-styles.module.css";
+import { cn } from '@/lib/utils';
+import { PropsWithChildren } from 'react';
+import markdownStyles from './markdown-styles.module.css';
 
-type Props = {
-  content: string;
-};
+type Props = {};
 
-export function PostBody({ content }: Props) {
+export function PostBody({ children }: PropsWithChildren<Props>) {
   return (
-    <div className="max-w-2xl mx-auto">
-      <div
-        className={markdownStyles["markdown"]}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+    <div
+      className={cn(
+        'prose dark:prose-dark mx-auto max-w-2xl',
+        markdownStyles.markdown,
+      )}
+    >
+      {children}
     </div>
   );
 }

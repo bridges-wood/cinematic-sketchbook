@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
@@ -21,6 +21,7 @@
     "lucide-react": "^0.484.0",
     "mathjs": "^14.4.0",
     "next": "^15.2.4",
+    "next-mdx-remote": "^5.0.0",
     "plaiceholder": "^3.0.0",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
@@ -41,6 +42,7 @@
     "@storybook/experimental-nextjs-vite": "8.6.11",
     "@storybook/react": "^8.6.11",
     "@storybook/test": "^8.6.11",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.14.8",
     "@types/react": "npm:types-react@19.0.0-rc.1",

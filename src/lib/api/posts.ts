@@ -3,7 +3,7 @@ import { getAverageColor } from 'fast-average-color-node';
 import fs from 'fs';
 import matter from 'gray-matter';
 import { join } from 'path';
-import { getPlaiceholder } from 'plaiceholder';
+import { getBlurDataUrl } from '../images';
 
 const postsDirectory = join(process.cwd(), '_posts');
 
@@ -12,21 +12,17 @@ export function getPostSlugs() {
 }
 
 export async function getPostBySlug(slug: string) {
-  const realSlug = slug.replace(/\.md$/, '');
-  const fullPath = join(postsDirectory, `${realSlug}.md`);
+  const realSlug = slug.replace(/\.mdx$/, '');
+  const fullPath = join(postsDirectory, `${realSlug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const imagePath = join('public', data.coverImage.url);
-  const imageFile = fs.readFileSync(imagePath);
-
   const imageColorData = await getImageColorData(data.coverImage.url);
-  const plaiceholder = await getPlaiceholder(imageFile);
 
   return {
     ...data,
     coverImage: {
-      blurDataURL: plaiceholder.base64,
+      blurDataURL: await getBlurDataUrl(data.coverImage.url),
       ...data.coverImage,
       ...imageColorData,
     },

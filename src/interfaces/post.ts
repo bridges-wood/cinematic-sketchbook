@@ -18,7 +18,7 @@ type PostMetadata = {
   ogImage: {
     url: string;
   };
-  content: string;
+  content: any;
   preview?: boolean;
 };
 

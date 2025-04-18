@@ -1,3 +1,4 @@
+import tailwindTypography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -5,7 +6,7 @@ const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx,module.css}',
   ],
   theme: {
     extend: {
@@ -44,9 +45,44 @@ const config: Config = {
         sm: '0 5px 10px rgba(0, 0, 0, 0.12)',
         md: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
+      typography: (theme: any) => ({
+        dark: {
+          css: {
+            color: theme('colors.slate.400'),
+            '[class~="lead"]': {
+              color: theme('colors.gray.400'),
+            },
+            a: {
+              color: theme('colors.slate.400'),
+            },
+            strong: {
+              color: theme('colors.slate.400'),
+            },
+            h1: {
+              color: theme('colors.slate.400'),
+            },
+            h2: {
+              color: theme('colors.slate.400'),
+            },
+            h3: {
+              color: theme('colors.slate.400'),
+            },
+            h4: {
+              color: theme('colors.slate.400'),
+            },
+            h5: {
+              color: theme('colors.slate.400'),
+            },
+            h6: {
+              color: theme('colors.slate.400'),
+            },
+            // ...other styles adjustments if needed
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [tailwindTypography],
 };
 
 export default config;
